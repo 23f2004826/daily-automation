@@ -1,0 +1,23 @@
+name: Daily Commit
+
+on:
+  schedule:
+    - cron: "30 6 * * *"   # runs every day at 06:30 UTC
+  workflow_dispatch:
+
+jobs:
+  auto-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Update - 23f2004826@ds.study.iitm.ac.in
+        run: echo "Update at $(date)" >> log.txt
+
+      - name: Commit
+        run: |
+          git config --local user.email "23f2004826@ds.study.iitm.ac.in"
+          git config --local user.name "Daily Bot"
+          git add .
+          git commit -m "Daily update $(date)" || echo "No changes"
+          git push
